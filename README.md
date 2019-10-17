@@ -16,7 +16,7 @@ We have the following form model:
 
 ```
 const myFormValues = {
-  product : 'shoes',
+  product: 'shoes',
   price: 20,
 }
 ```
@@ -27,7 +27,9 @@ We can add a rangeDate validation to the myFormValues
 import { rangeDate } from '@lemoncode/fonk-range-date-validator';
 
 const validationSchema = {
-  price: [rangeDate.validator],
+  field: {
+    price: [rangeDate.validator],
+  },
 };
 ```
 
@@ -47,12 +49,14 @@ rangeDate.setErrorMessage('El campo debe de ser numérico');
 import { rangeDate } from '@lemoncode/fonk-range-date-validator';
 
 const validationSchema = {
-  price: [
-    {
-      validator: rangeDate.validator,
-      message: 'Error message only updated for the validation schema',
-    },
-  ],
+  field: {
+    price: [
+      {
+        validator: rangeDate.validator,
+        message: 'Error message only updated for the validation schema',
+      },
+    ],
+  },
 };
 ```
 

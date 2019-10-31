@@ -3,27 +3,42 @@ import {
   parseMessageWithCustomArgs,
 } from '@lemoncode/fonk';
 
-// TODO: Add validator type
-const VALIDATOR_TYPE = '';
+const VALIDATOR_TYPE = 'RANGE_DATE';
 
-// TODO: Add default message
-let defaultMessage = '';
+interface CustomArgs {
+  startDate: Date;
+  endDate: Date;
+}
+
+const BAD_PARAMETER = 'Value must be a valid Date object';
+const MISSING_ARGS =
+  'FieldValidationError: startDate and endDate options for date validation are mandatory. Example: { startDate: new Date(), endDate: new Date() }.';
+
+let defaultMessage = "Date isn't included in provided range";
 export const setErrorMessage = message => (defaultMessage = message);
 
-const isDefined = value => value !== void 0 && value !== null && value !== '';
+export const validator: FieldValidationFunctionSync<CustomArgs> = ({
+  value,
+  message = defaultMessage,
+  customArgs,
+}) => {
+  if (!customArgs) {
+    throw new Error(MISSING_ARGS);
+  }
 
-export const validator: FieldValidationFunctionSync = fieldValidatorArgs => {
-  const { value, message = defaultMessage, customArgs } = fieldValidatorArgs;
+  const { startDate, endDate } = customArgs;
 
-  // TODO: Add validator
-  const succeeded = !isDefined(value) || ...;
+  if (!(value instanceof Date)) {
+    throw new TypeError(BAD_PARAMETER);
+  }
+
+  const succeeded = value > startDate && value < endDate;
 
   return {
     succeeded,
     message: succeeded
       ? ''
-      : // TODO: Use if it has custom args
-        parseMessageWithCustomArgs(
+      : parseMessageWithCustomArgs(
           (message as string) || defaultMessage,
           customArgs
         ),

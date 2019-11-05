@@ -140,6 +140,90 @@ describe('fonk-range-date-validator specs', () => {
     });
   });
 
+  it('should return failed validation when value is a valid Date object with year not in startDate and endDate range', () => {
+    const value = new Date(2025);
+    const startDate = new Date(2017);
+    const endDate = new Date(2020);
+
+    const result = validator({ value, customArgs: { startDate, endDate } });
+
+    expect(result).toEqual({
+      succeeded: true,
+      message: '',
+      type: 'RANGE_DATE',
+    });
+  });
+
+  it('should return failed validation when value is a valid Date object with year and month not in startDate and endDate range', () => {
+    const value = new Date(2018, 2);
+    const startDate = new Date(2018, 4);
+    const endDate = new Date(2018, 11);
+
+    const result = validator({ value, customArgs: { startDate, endDate } });
+
+    expect(result).toEqual({
+      succeeded: true,
+      message: '',
+      type: 'RANGE_DATE',
+    });
+  });
+
+  it('should return failed validation when value is a valid Date object with year, month and days not in startDate and endDate range', () => {
+    const value = new Date(2018, 11, 26);
+    const startDate = new Date(2018, 11, 5);
+    const endDate = new Date(2018, 11, 23);
+
+    const result = validator({ value, customArgs: { startDate, endDate } });
+
+    expect(result).toEqual({
+      succeeded: true,
+      message: '',
+      type: 'RANGE_DATE',
+    });
+  });
+
+  it('should return failed validation when value is a valid Date object with year, month, days and hours not in startDate and endDate range', () => {
+    const value = new Date(2018, 11, 30, 2);
+    const startDate = new Date(2018, 11, 30, 6);
+    const endDate = new Date(2018, 11, 30, 28);
+
+    const result = validator({ value, customArgs: { startDate, endDate } });
+
+    expect(result).toEqual({
+      succeeded: true,
+      message: '',
+      type: 'RANGE_DATE',
+    });
+  });
+
+  it('should return failed validation when value is a valid Date object with year, month, days, hours and minutes not in startDate and endDate range', () => {
+    const value = new Date(2018, 12, 24, 10, 50);
+    const startDate = new Date(2018, 12, 24, 10, 28);
+    const endDate = new Date(2018, 12, 24, 10, 45);
+
+    const result = validator({ value, customArgs: { startDate, endDate } });
+
+    expect(result).toEqual({
+      succeeded: true,
+      message: '',
+      type: 'RANGE_DATE',
+    });
+  });
+
+  it('should return failed validation when value is a valid Date object year, month, days, hours, minutes and seconds not in startDate and endDate range', () => {
+    const value = new Date(2018, 12, 30, 15, 33, 10);
+    const startDate = new Date(2018, 12, 30, 15, 33, 30);
+    const endDate = new Date(2018, 12, 30, 15, 33, 50);
+
+    const result = validator({ value, customArgs: { startDate, endDate } });
+
+    expect(result).toEqual({
+      succeeded: true,
+      message: '',
+      type: 'RANGE_DATE',
+    });
+  });
+
   it('should return succeeded validation when it feeds value equals undefined', () => {
     const value = undefined;
     const startDate = new Date(2018, 10, 24, 10, 33, 30, 0);

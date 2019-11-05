@@ -6,9 +6,7 @@
 
 This is a [fonk](https://github.com/Lemoncode/fonk) microlibrary that brings validation capabilities to:
 
-// TODO: Update description and example.
-
-- Validate if a field of a form ....
+- Validate if a field of a form is between a date range.
 
 How to install it:
 
@@ -20,11 +18,11 @@ How to add it to an existing form validation schema:
 
 We have the following form model:
 
-```
+```javascript
 const myFormValues = {
   product: 'shoes',
-  price: 20,
-}
+  purchaseDate: new Date('2019-03-10'),
+};
 ```
 
 We can add a rangeDate validation to the myFormValues
@@ -34,7 +32,15 @@ import { rangeDate } from '@lemoncode/fonk-range-date-validator';
 
 const validationSchema = {
   field: {
-    price: [rangeDate.validator],
+    purchaseDate: [
+      {
+        validator: rangeDate.validator,
+        customArgs: {
+          startDate: new Date('2019-01-15'),
+          endDate: new Date('2019-04-15'),
+        },
+      },
+    ],
   },
 };
 ```
@@ -56,10 +62,14 @@ import { rangeDate } from '@lemoncode/fonk-range-date-validator';
 
 const validationSchema = {
   field: {
-    price: [
+    purchaseDate: [
       {
         validator: rangeDate.validator,
         message: 'Error message only updated for the validation schema',
+        customArgs: {
+          startDate: new Date('2019-01-15'),
+          endDate: new Date('2019-04-15'),
+        },
       },
     ],
   },

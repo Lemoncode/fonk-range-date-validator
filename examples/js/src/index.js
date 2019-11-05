@@ -3,7 +3,15 @@ import { rangeDate } from '@lemoncode/fonk-range-date-validator';
 
 const validationSchema = {
   field: {
-    myField: [rangeDate.validator],
+    myField: [
+      {
+        validator: rangeDate.validator,
+        customArgs: {
+          startDate: new Date('2019-01-15'),
+          endDate: new Date('2019-04-15'),
+        },
+      },
+    ],
   },
 };
 
@@ -12,7 +20,7 @@ const formValidation = createFormValidation(validationSchema);
 // TODO: Update example values 'test' and/or 10 if needed
 Promise.all([
   formValidation.validateField('myField', 'test'),
-  formValidation.validateField('myField', 10),
+  formValidation.validateField('myField', new Date('2019-03-10')),
 ]).then(([failedResult, succeededResult]) => {
   document.getElementById('app').innerHTML = `
 <div style="flex-grow: 1;margin-left:2rem;">
@@ -32,7 +40,7 @@ ${JSON.stringify(failedResult, null, 2)}
   <h2>Example with succeeded result:</h2>
 
 <pre>
-formValidation.validateField('myField', 10)
+formValidation.validateField('myField', new Date('2019-03-10'))
 </pre>
 
   <h3>Result: </h3>

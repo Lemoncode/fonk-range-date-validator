@@ -140,43 +140,46 @@ describe('fonk-range-date-validator specs', () => {
     });
   });
 
-  it('should throw an error when it feeds value equals undefined', () => {
+  it('should return succeeded validation when it feeds value equals undefined', () => {
     const value = undefined;
     const startDate = new Date(2018, 10, 24, 10, 33, 30, 0);
     const endDate = new Date(2018, 12, 24, 10, 33, 30, 0);
 
-    const validatorArgs = { value, customArgs: { startDate, endDate } };
+    const result = validator({ value, customArgs: { startDate, endDate } });
 
-    expect(() => validator(validatorArgs)).toThrow(TypeError);
-    expect(() => validator(validatorArgs)).toThrowError(
-      'Value must be a valid Date object'
-    );
+    expect(result).toEqual({
+      succeeded: true,
+      message: '',
+      type: 'RANGE_DATE',
+    });
   });
 
-  it('should throw an error when it feeds value equals null', () => {
+  it('should return succeeded validation when it feeds value equals null', () => {
     const value = null;
     const startDate = new Date(2018, 10, 24, 10, 33, 30, 0);
     const endDate = new Date(2018, 12, 24, 10, 33, 30, 0);
 
-    const validatorArgs = { value, customArgs: { startDate, endDate } };
+    const result = validator({ value, customArgs: { startDate, endDate } });
 
-    expect(() => validator(validatorArgs)).toThrow(TypeError);
-    expect(() => validator(validatorArgs)).toThrowError(
-      'Value must be a valid Date object'
-    );
+    expect(result).toEqual({
+      succeeded: true,
+      message: '',
+      type: 'RANGE_DATE',
+    });
   });
 
-  it('should throw an error when it feeds value equals empty string', () => {
+  it('should return succeeded validation when it feeds value equals empty string', () => {
     const value = '';
     const startDate = new Date(2018, 10, 24, 10, 33, 30, 0);
     const endDate = new Date(2018, 12, 24, 10, 33, 30, 0);
 
-    const validatorArgs = { value, customArgs: { startDate, endDate } };
+    const result = validator({ value, customArgs: { startDate, endDate } });
 
-    expect(() => validator(validatorArgs)).toThrow(TypeError);
-    expect(() => validator(validatorArgs)).toThrowError(
-      'Value must be a valid Date object'
-    );
+    expect(result).toEqual({
+      succeeded: true,
+      message: '',
+      type: 'RANGE_DATE',
+    });
   });
 
   it('should overwrite default message when it feeds value and message', () => {

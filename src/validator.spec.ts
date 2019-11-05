@@ -148,8 +148,8 @@ describe('fonk-range-date-validator specs', () => {
     const result = validator({ value, customArgs: { startDate, endDate } });
 
     expect(result).toEqual({
-      succeeded: true,
-      message: '',
+      succeeded: false,
+      message: "Date isn't included in provided range",
       type: 'RANGE_DATE',
     });
   });
@@ -162,8 +162,8 @@ describe('fonk-range-date-validator specs', () => {
     const result = validator({ value, customArgs: { startDate, endDate } });
 
     expect(result).toEqual({
-      succeeded: true,
-      message: '',
+      succeeded: false,
+      message: "Date isn't included in provided range",
       type: 'RANGE_DATE',
     });
   });
@@ -176,8 +176,8 @@ describe('fonk-range-date-validator specs', () => {
     const result = validator({ value, customArgs: { startDate, endDate } });
 
     expect(result).toEqual({
-      succeeded: true,
-      message: '',
+      succeeded: false,
+      message: "Date isn't included in provided range",
       type: 'RANGE_DATE',
     });
   });
@@ -190,8 +190,8 @@ describe('fonk-range-date-validator specs', () => {
     const result = validator({ value, customArgs: { startDate, endDate } });
 
     expect(result).toEqual({
-      succeeded: true,
-      message: '',
+      succeeded: false,
+      message: "Date isn't included in provided range",
       type: 'RANGE_DATE',
     });
   });
@@ -204,8 +204,8 @@ describe('fonk-range-date-validator specs', () => {
     const result = validator({ value, customArgs: { startDate, endDate } });
 
     expect(result).toEqual({
-      succeeded: true,
-      message: '',
+      succeeded: false,
+      message: "Date isn't included in provided range",
       type: 'RANGE_DATE',
     });
   });
@@ -218,8 +218,8 @@ describe('fonk-range-date-validator specs', () => {
     const result = validator({ value, customArgs: { startDate, endDate } });
 
     expect(result).toEqual({
-      succeeded: true,
-      message: '',
+      succeeded: false,
+      message: "Date isn't included in provided range",
       type: 'RANGE_DATE',
     });
   });

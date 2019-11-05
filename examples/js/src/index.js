@@ -17,9 +17,8 @@ const validationSchema = {
 
 const formValidation = createFormValidation(validationSchema);
 
-// TODO: Update example values 'test' and/or 10 if needed
 Promise.all([
-  formValidation.validateField('myField', 'test'),
+  formValidation.validateField('myField', new Date('2019-08-15')),
   formValidation.validateField('myField', new Date('2019-03-10')),
 ]).then(([failedResult, succeededResult]) => {
   document.getElementById('app').innerHTML = `
@@ -27,7 +26,7 @@ Promise.all([
   <h2>Example with failed result:</h2>
 
 <pre>
-  formValidation.validateField('myField', 'test')
+  formValidation.validateField('myField', new Date('2019-08-15'))
 </pre>
 
   <h3>Result: </h3>

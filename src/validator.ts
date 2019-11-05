@@ -10,12 +10,13 @@ interface CustomArgs {
   endDate: Date;
 }
 
-const BAD_PARAMETER = 'Value must be a valid Date object';
 const MISSING_ARGS =
   'FieldValidationError: startDate and endDate options for date validation are mandatory. Example: { startDate: new Date(), endDate: new Date() }.';
 
 let defaultMessage = "Date isn't included in provided range";
 export const setErrorMessage = message => (defaultMessage = message);
+
+const isDefined = value => value !== void 0 && value !== null && value !== '';
 
 export const validator: FieldValidationFunctionSync<CustomArgs> = ({
   value,
@@ -28,11 +29,7 @@ export const validator: FieldValidationFunctionSync<CustomArgs> = ({
 
   const { startDate, endDate } = customArgs;
 
-  if (!(value instanceof Date)) {
-    throw new TypeError(BAD_PARAMETER);
-  }
-
-  const succeeded = value > startDate && value < endDate;
+  const succeeded = !isDefined(value) || (value > startDate && value < endDate);
 
   return {
     succeeded,

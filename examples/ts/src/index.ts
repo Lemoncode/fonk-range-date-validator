@@ -8,8 +8,12 @@ const validationSchema: ValidationSchema = {
       {
         validator: rangeDate.validator,
         customArgs: {
-          startDate: new Date('2019-01-15'),
-          endDate: new Date('2019-04-15'),
+          min: {
+            value: new Date('2019-01-15'),
+          },
+          max: {
+            value: new Date('2019-04-15'),
+          },
         },
       },
     ],

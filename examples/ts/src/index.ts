@@ -1,28 +1,37 @@
-import {
-  ValidationSchema,
-  createFormValidation,
-} from '@lemoncode/fonk';
+import { ValidationSchema, createFormValidation } from '@lemoncode/fonk';
+
 import { rangeDate } from '@lemoncode/fonk-range-date-validator';
 
 const validationSchema: ValidationSchema = {
   field: {
-    myField: [rangeDate.validator],
+    myField: [
+      {
+        validator: rangeDate.validator,
+        customArgs: {
+          min: {
+            value: new Date('2019-01-15'),
+          },
+          max: {
+            value: new Date('2019-04-15'),
+          },
+        },
+      },
+    ],
   },
 };
 
 const formValidation = createFormValidation(validationSchema);
 
-// TODO: Update example values 'test' and/or 10 if needed
 Promise.all([
-  formValidation.validateField('myField', 'test'),
-  formValidation.validateField('myField', 10),
+  formValidation.validateField('myField', new Date('2019-08-10')),
+  formValidation.validateField('myField', new Date('2019-03-10')),
 ]).then(([failedResult, succeededResult]) => {
   document.getElementById('app').innerHTML = `
 <div style="flex-grow: 1;margin-left:2rem;">
   <h2>Example with failed result:</h2>
 
 <pre>
-  formValidation.validateField('myField', 'test')
+  formValidation.validateField('myField', new Date('2019-08-10'))
 </pre>
 
   <h3>Result: </h3>
@@ -35,7 +44,7 @@ ${JSON.stringify(failedResult, null, 2)}
   <h2>Example with succeeded result:</h2>
 
 <pre>
-formValidation.validateField('myField', 10)
+formValidation.validateField('myField', new Date('2019-03-10'))
 </pre>
 
   <h3>Result: </h3>

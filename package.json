@@ -1,6 +1,6 @@
 {
   "name": "@lemoncode/fonk-range-date-validator",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "This is a [fonk](https://github.com/Lemoncode/fonk) microlibrary that brings validation capabilities to validate if a field of a form is between a date range",
   "main": "dist/@lemoncode/fonk-range-date-validator.cjs.js",
   "module": "dist/@lemoncode/fonk-range-date-validator.esm.js",

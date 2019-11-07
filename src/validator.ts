@@ -62,6 +62,13 @@ const isValidMax = (value: Date, max: Limit) =>
 const isValid = (value: Date, customArgs: CustomArgs) =>
   isValidMin(value, customArgs.min) && isValidMax(value, customArgs.max);
 
+const hasCustomArgs = (customArgs: CustomArgs) =>
+  customArgs &&
+  customArgs.min &&
+  customArgs.min.value &&
+  customArgs.max &&
+  customArgs.max.value;
+
 export const validator: FieldValidationFunctionSync<CustomArgs> = ({
   value,
   message = defaultMessage,
@@ -72,7 +79,7 @@ export const validator: FieldValidationFunctionSync<CustomArgs> = ({
     ...customArgs,
   };
 
-  if (!args || !args.min || !args.max) {
+  if (!hasCustomArgs(args)) {
     throw new Error(MISSING_ARGS);
   }
 

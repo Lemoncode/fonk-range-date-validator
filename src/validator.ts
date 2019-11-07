@@ -5,37 +5,86 @@ import {
 
 const VALIDATOR_TYPE = 'RANGE_DATE';
 
-interface CustomArgs {
-  startDate: Date;
-  endDate: Date;
+export interface CustomArgs {
+  min: Limit;
+  max: Limit;
+  parseStringToDateFn?: (value: string) => Date;
 }
 
+export interface Limit {
+  value: Date;
+  inclusive?: boolean;
+}
+
+let defaultCustomArgs: CustomArgs = {
+  min: {
+    value: null,
+    inclusive: false,
+  },
+  max: {
+    value: null,
+    inclusive: false,
+  },
+  parseStringToDateFn: null,
+};
+
+export const setCustomArgs = (customArgs: Partial<CustomArgs>) => {
+  defaultCustomArgs = { ...defaultCustomArgs, ...customArgs };
+};
+
 const MISSING_ARGS =
-  'FieldValidationError: startDate and endDate options for date validation are mandatory. Example: { startDate: new Date(), endDate: new Date() }.';
+  'FieldValidationError: min and max custom args are mandatory. Example: { customArgs: { min: { value: new Date() }, max: { value: new Date() } } }.';
+
+const MISSING_PARSE_ARGS =
+  'FieldValidationError: parseStringToDateFn custom arg is mandatory when value is string. Example: { customArgs: { parseStringToDateFn: (value) => new Date(value) } }.';
 
 let defaultMessage = "Date isn't included in provided range";
 export const setErrorMessage = message => (defaultMessage = message);
 
 const isDefined = value => value !== void 0 && value !== null && value !== '';
 
+const isString = value => typeof value === 'string';
+
+const parseToDate = (value, { parseStringToDateFn }: CustomArgs) => {
+  if (!parseStringToDateFn) {
+    throw new Error(MISSING_PARSE_ARGS);
+  }
+
+  return parseStringToDateFn(value);
+};
+
+const isValidMin = (value: Date, min: Limit) =>
+  min.inclusive ? value >= min.value : value > min.value;
+
+const isValidMax = (value: Date, max: Limit) =>
+  max.inclusive ? value <= max.value : value < max.value;
+
+const isValid = (value: Date, customArgs: CustomArgs) =>
+  isValidMin(value, customArgs.min) && isValidMax(value, customArgs.max);
+
 export const validator: FieldValidationFunctionSync<CustomArgs> = ({
   value,
   message = defaultMessage,
-  customArgs,
+  customArgs = defaultCustomArgs,
 }) => {
-  if (!customArgs) {
+  const args: CustomArgs = {
+    ...defaultCustomArgs,
+    ...customArgs,
+  };
+
+  if (!args || !args.min || !args.max) {
     throw new Error(MISSING_ARGS);
   }
 
-  const { startDate, endDate } = customArgs;
+  const valueAsDate = isString(value) ? parseToDate(value, args) : value;
 
-  const succeeded = !isDefined(value) || (value > startDate && value < endDate);
+  const succeeded = !isDefined(value) || isValid(valueAsDate, args);
 
   return {
     succeeded,
     message: succeeded
       ? ''
-      : parseMessageWithCustomArgs(message as string, customArgs),
+      : parseMessageWithCustomArgs(message as string, args),
     type: VALIDATOR_TYPE,
   };
 };

@@ -196,7 +196,7 @@ const validationSchema = {
 };
 ```
 
-- Globally, replace the default custom arguments in all validationSchemas (e.g. enable strict types):
+- Globally, replace the default custom arguments in all validationSchemas:
 
 ```javascript
 import { rangeDate } from '@lemoncode/fonk-range-date-validator';
